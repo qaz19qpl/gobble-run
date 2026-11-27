@@ -60,7 +60,7 @@ export class World {
     this.time = 0;
     this.obstacles = [];
     this.pickups = [];
-    this.nextSpawnPx = 700;
+    this.nextSpawnPx = 1100;
     this.nextCornPx = 500;
     this.cleared = new Set();
     this.over = null; // 'caught' | 'escaped' | null
@@ -83,7 +83,8 @@ export class World {
 
   get farmerX() {
     // The farmer runs behind the turkey, closing in as the gap shrinks.
-    return TURKEY_X - 130 - this.farmerGap;
+    // He stays at least partly on screen, so you can always see him coming.
+    return Math.max(-50, TURKEY_X - 130 - this.farmerGap);
   }
 
   spawnObstacle(px) {
@@ -267,7 +268,7 @@ export class World {
     this.score = Math.floor(this.distanceM) + 240;
     this.corn = 14;
     this.farmerGap = farmerGap;
-    this.time = 6.5;
+    this.time = 6.0; // blink phase on, so the title / restart prompt shows
     this.runPhase = 2.2;
     this.turkeyY = GROUND_Y;
     // A little scene: fence ahead, corn trail, a knife swinging, a pie.

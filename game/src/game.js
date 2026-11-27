@@ -84,7 +84,7 @@ export class Game {
       this.world.stageRun(seed, 0, 200);
     } else if (name === 'farm') {
       this.state = 'playing';
-      this.world.stageRun(seed, 0, 190);
+      this.world.stageRun(seed, 0, 120); // farmer close enough to see
     } else if (name === 'kitchen') {
       this.state = 'playing';
       this.world.stageRun(seed, 2, 70);
@@ -97,6 +97,7 @@ export class Game {
       this.world.score = 4210;
       this.world.corn = 31;
       this.world.pies = 2;
+      this.best = 4210;
     } else if (name === 'caught') {
       this.state = 'caught';
       this.world.stageRun(seed, 1, 0);
@@ -166,6 +167,14 @@ export class Game {
       return;
     }
 
+    // On an end screen the world behind is dimmed and the end art takes
+    // the turkey's place, so the player never sees two turkeys.
+    if (this.state === 'caught' || this.state === 'escaped') {
+      this.renderHud();
+      this.renderEnd(this.state === 'escaped');
+      return;
+    }
+
     // Pickups.
     for (const p of w.pickups) {
       const sx = p.x - w.distancePx;
@@ -185,16 +194,21 @@ export class Game {
       else if (o.type === 'oven') drawOven(ctx, sx, GROUND_Y, w.time);
       else if (o.type === 'knife') {
         const angle = Math.sin(w.time * o.swingSpeed + o.swing) * 0.7;
+        // A wooden beam across the top, so the knife reads as mounted.
+        ctx.fillStyle = '#6b4423';
+        ctx.fillRect(sx - 80, 92, 160, 14);
+        ctx.fillStyle = '#8a5a2b';
+        ctx.fillRect(sx - 80, 92, 160, 5);
         ctx.save();
-        ctx.translate(sx, 120);
+        ctx.translate(sx, 106);
         ctx.strokeStyle = '#6b4423';
         ctx.lineWidth = 6;
         ctx.beginPath();
         ctx.moveTo(0, 0);
-        ctx.lineTo(0, 26);
+        ctx.lineTo(0, 14);
         ctx.stroke();
         ctx.restore();
-        drawKnife(ctx, sx, 146, angle);
+        drawKnife(ctx, sx, 120, angle);
       } else if (o.type === 'pot') {
         drawPot(ctx, sx, GROUND_Y - 74, w.time);
       }
@@ -233,8 +247,6 @@ export class Game {
     this.renderHud();
 
     if (this.state === 'paused') this.renderPaused();
-    else if (this.state === 'caught') this.renderEnd(false);
-    else if (this.state === 'escaped') this.renderEnd(true);
   }
 
   renderHud() {

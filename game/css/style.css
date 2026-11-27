@@ -8,7 +8,7 @@ body {
   justify-content: center;
   font-family: system-ui, -apple-system, "Segoe UI", sans-serif;
 }
-main { width: min(1280px, 100vw); padding: 12px; }
+main { width: min(1304px, 100vw); padding: 12px; }
 canvas {
   display: block;
   width: 100%;

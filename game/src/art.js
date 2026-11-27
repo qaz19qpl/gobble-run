@@ -179,12 +179,18 @@ export function drawFarmer(ctx, x, y, scale, runPhase, reaching) {
 export function drawFence(ctx, x, y) {
   ctx.save();
   ctx.translate(x, y);
-  ctx.fillStyle = '#8a5a2b';
+  ctx.fillStyle = '#d9a05b';
+  ctx.strokeStyle = '#5d3a1a';
+  ctx.lineWidth = 2;
   ctx.fillRect(-23, -74, 8, 74);
+  ctx.strokeRect(-23, -74, 8, 74);
   ctx.fillRect(15, -74, 8, 74);
-  ctx.fillStyle = '#a4713a';
+  ctx.strokeRect(15, -74, 8, 74);
+  ctx.fillStyle = '#e8b878';
   ctx.fillRect(-28, -70, 56, 9);
+  ctx.strokeRect(-28, -70, 56, 9);
   ctx.fillRect(-28, -44, 56, 9);
+  ctx.strokeRect(-28, -44, 56, 9);
   ctx.restore();
 }
 
@@ -288,26 +294,30 @@ export function drawOven(ctx, x, y, t) {
 }
 
 export function drawKnife(ctx, x, y, angle) {
+  // A carving knife hung from a pivot at (x, y), swinging like a pendulum.
+  // The blade is long enough to reach the turkey when it hangs vertical.
   ctx.save();
   ctx.translate(x, y);
   ctx.rotate(angle);
   // Handle.
   ctx.fillStyle = '#4a2c14';
   ctx.beginPath();
-  ctx.roundRect(-12, -96, 24, 52, 8);
+  ctx.roundRect(-13, -8, 26, 56, 8);
   ctx.fill();
+  ctx.fillStyle = '#c9a06a';
+  for (let i = 0; i < 3; i += 1) ctx.fillRect(-13, 4 + i * 16, 26, 4);
   // Blade, glinting.
-  const grad = ctx.createLinearGradient(-8, -44, 8, -44);
+  const grad = ctx.createLinearGradient(-10, 48, 10, 48);
   grad.addColorStop(0, '#e8e8e8');
   grad.addColorStop(0.5, '#ffffff');
   grad.addColorStop(1, '#b8b8b8');
   ctx.fillStyle = grad;
   ctx.beginPath();
-  ctx.moveTo(-9, -44);
-  ctx.lineTo(9, -44);
-  ctx.lineTo(9, 52);
-  ctx.lineTo(0, 74);
-  ctx.lineTo(-9, 52);
+  ctx.moveTo(-10, 48);
+  ctx.lineTo(10, 48);
+  ctx.lineTo(10, 400);
+  ctx.lineTo(0, 430);
+  ctx.lineTo(-10, 400);
   ctx.closePath();
   ctx.fill();
   ctx.restore();
@@ -458,21 +468,21 @@ export function drawStageDressing(ctx, stageIndex, scrollPx) {
     ctx.lineTo(bx + 200, 500);
     ctx.stroke();
   } else if (stageIndex === 2) {
-    // Kitchen window and hanging pans on the wall.
+    // Kitchen window and hanging pans on the wall, below the HUD bars.
     ctx.fillStyle = 'rgba(20, 12, 8, 0.35)';
-    ctx.fillRect(0, 60, VIEW_W, 200);
+    ctx.fillRect(0, 150, VIEW_W, 190);
     ctx.strokeStyle = '#c9a06a';
     ctx.lineWidth = 8;
-    ctx.strokeRect(96, 90, 150, 130);
+    ctx.strokeRect(96, 176, 150, 130);
     ctx.fillStyle = '#f4e3c2';
     ctx.font = 'bold 22px system-ui, sans-serif';
     ctx.textAlign = 'left';
-    ctx.fillText('THANKSGIVING', 300, 130);
-    ctx.fillText('DINNER — 6 PM', 300, 164);
+    ctx.fillText('THANKSGIVING', 300, 216);
+    ctx.fillText('DINNER — 6 PM', 300, 250);
     ctx.fillStyle = '#2f2f2f';
     for (let i = 0; i < 4; i += 1) {
       ctx.beginPath();
-      ctx.arc(980 + i * 70, 150, 26, 0, Math.PI * 2);
+      ctx.arc(980 + i * 70, 236, 26, 0, Math.PI * 2);
       ctx.fill();
     }
   }
