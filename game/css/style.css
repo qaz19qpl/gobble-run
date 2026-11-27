@@ -1,0 +1,26 @@
+/* Gobble Run — page chrome only. The game itself is drawn on the canvas. */
+* { box-sizing: border-box; }
+html, body { margin: 0; padding: 0; background: #2e1a14; }
+body {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: system-ui, -apple-system, "Segoe UI", sans-serif;
+}
+main { width: min(1280px, 100vw); padding: 12px; }
+canvas {
+  display: block;
+  width: 100%;
+  height: auto;
+  border-radius: 12px;
+  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.5);
+  background: #f7b267;
+  cursor: pointer;
+}
+.hint {
+  color: #ffe9c4;
+  text-align: center;
+  font-size: 15px;
+  margin: 12px 0 0;
+}
